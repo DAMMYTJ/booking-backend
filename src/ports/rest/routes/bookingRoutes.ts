@@ -1,11 +1,14 @@
 import { Router, Response } from 'express';
 import optionalAuth, { AuthRequest } from '../../../infrastructure/middleware/optionalAuth';
+import { requireAuth, requireAdmin } from '../../../infrastructure/middleware/adminAuth';
 import {
   createGuestBooking,
   createUserBooking,
   getAllBookings,
   getBookingById,
-  getUserBookings
+  getUserBookings,
+  updateBookingStatus,
+  editBooking
 } from '../../../use-cases/bookingUseCases';
 
 const router = Router();
@@ -90,6 +93,45 @@ router.get('/:id', async (req: AuthRequest, res: Response) => {
     res.json(booking);
   } catch (error: any) {
     res.status(500).json({ error: error.message || 'Failed to fetch booking' });
+  }
+});
+
+// PATCH /bookings/:id/status — admin accept / decline a booking
+router.patch('/:id/status', requireAuth, requireAdmin, async (req: AuthRequest, res: Response) => {
+  try {
+    const { status } = req.body;
+    if (!status) {
+      res.status(400).json({ error: 'status is required (pending, accepted, or declined)' });
+      return;
+    }
+    const booking = await updateBookingStatus(req.params.id as string, status);
+    res.json(booking);
+  } catch (error: any) {
+    const message = error.message || 'Failed to update booking status';
+    const statusCode = message.includes('not found') ? 404
+      : message.includes('Invalid status') ? 400
+      : message.includes('already booked') ? 409
+      : 500;
+    res.status(statusCode).json({ error: message });
+  }
+});
+
+// PATCH /bookings/:id — admin edit booking details (notes, timeSlotId)
+router.patch('/:id', requireAuth, requireAdmin, async (req: AuthRequest, res: Response) => {
+  try {
+    const { notes, timeSlotId } = req.body;
+    if (notes === undefined && !timeSlotId) {
+      res.status(400).json({ error: 'Provide at least one field to update (notes, timeSlotId)' });
+      return;
+    }
+    const booking = await editBooking(req.params.id as string, { notes, timeSlotId });
+    res.json(booking);
+  } catch (error: any) {
+    const message = error.message || 'Failed to edit booking';
+    const statusCode = message.includes('not found') ? 404
+      : message.includes('no longer available') ? 409
+      : 500;
+    res.status(statusCode).json({ error: message });
   }
 });
 
