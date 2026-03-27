@@ -1,3 +1,5 @@
+// Admin authentication and authorization middleware
+
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { AuthRequest } from './optionalAuth';
