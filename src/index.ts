@@ -5,6 +5,7 @@ import bookingRoutes from './ports/rest/routes/bookingRoutes';
 import timeSlotRoutes from './ports/rest/routes/timeSlotRoutes';
 import authRoutes from './ports/rest/routes/authRoutes';
 import { requestLogger } from './infrastructure/middleware/logger';
+import { errorHandler } from './infrastructure/middleware/errorHandler';
 
 dotenv.config();
 
@@ -21,6 +22,8 @@ app.get('/', (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/bookings', bookingRoutes);
 app.use('/timeslots', timeSlotRoutes);
+
+app.use(errorHandler);
 
 connectDB().then(() => {
   app.listen(PORT, () => {
