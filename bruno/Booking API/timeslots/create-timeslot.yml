@@ -1,0 +1,25 @@
+info:
+  name: create-timeslot
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}/timeslots"
+  headers:
+    - name: Authorization
+      value: Bearer {{adminToken}}
+  body:
+    type: json
+    data: |-
+      {
+        "startTime": "2026-04-10T10:00:00Z",
+        "endTime": "2026-04-10T11:00:00Z"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
