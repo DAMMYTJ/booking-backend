@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { errorLogger } from './logger';
+import { AppError } from '../../domain/errors/AppError';
 
 interface CustomError extends Error {
   statusCode?: number;
@@ -16,42 +17,41 @@ export const errorHandler = (
 ): void => {
   errorLogger(err);
 
-  let error: CustomError = { ...err };
-  error.message = err.message;
+  if (err instanceof AppError) {
+    res.status(err.statusCode).json({
+      success: false,
+      error: err.message
+    });
+    return;
+  }
 
-  // Mongoose bad ObjectId
   if (err.name === 'CastError') {
-    error.message = 'Resource not found';
-    error.statusCode = 404;
+    res.status(404).json({ success: false, error: 'Resource not found' });
+    return;
   }
 
-  // Mongoose duplicate key
   if (err.code === 11000) {
-    error.message = 'Duplicate field value entered';
-    error.statusCode = 400;
+    res.status(400).json({ success: false, error: 'Duplicate field value entered' });
+    return;
   }
 
-  // Mongoose validation error
   if (err.name === 'ValidationError') {
-    error.message = Object.values(err.errors)
-      .map((val: any) => val.message)
-      .join(', ');
-    error.statusCode = 400;
+    res.status(400).json({ success: false, error: err.message });
+    return;
   }
 
-  // JWT errors
   if (err.name === 'JsonWebTokenError') {
-    error.message = 'Invalid token';
-    error.statusCode = 401;
+    res.status(401).json({ success: false, error: 'Invalid token' });
+    return;
   }
 
   if (err.name === 'TokenExpiredError') {
-    error.message = 'Token expired';
-    error.statusCode = 401;
+    res.status(401).json({ success: false, error: 'Token expired' });
+    return;
   }
 
-  res.status(error.statusCode || 500).json({
+  res.status(500).json({
     success: false,
-    error: error.message || 'Server Error'
+    error: 'Internal server error'
   });
 };

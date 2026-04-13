@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../../domain/User';
+import { UnauthorizedError } from '../../domain/errors/UnauthorizedError';
 
 interface LoginInput {
   email: string;
@@ -10,19 +11,16 @@ interface LoginInput {
 export const loginUser = async (input: LoginInput) => {
   const { email, password } = input;
 
-  // Check if user exists
   const user = await User.findOne({ email });
   if (!user) {
-    throw new Error('Invalid email or password');
+    throw new UnauthorizedError('Invalid email or password');
   }
 
-  // Check password
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw new Error('Invalid email or password');
+    throw new UnauthorizedError('Invalid email or password');
   }
 
-  // Generate JWT token
   const token = jwt.sign(
     { id: user._id, role: user.role },
     process.env.JWT_SECRET || 'default_jwt_secret',
