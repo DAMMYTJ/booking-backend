@@ -1,6 +1,7 @@
-import { Router, Response } from 'express';
+import { Router, Response, NextFunction } from 'express';
 import optionalAuth, { AuthRequest } from '../../../infrastructure/middleware/optionalAuth';
 import { requireAuth, requireAdmin } from '../../../infrastructure/middleware/adminAuth';
+import { ValidationError, UnauthorizedError, NotFoundError } from '../../../domain/errors';
 import {
   createGuestBooking,
   createUserBooking,
@@ -14,124 +15,92 @@ import {
 const router = Router();
 
 // POST /bookings — create a booking (guest or logged-in user)
-router.post('/', optionalAuth, async (req: AuthRequest, res: Response) => {
+router.post('/', optionalAuth, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const { timeSlotId, notes, guestName, guestEmail } = req.body;
 
     if (!timeSlotId) {
-      res.status(400).json({ error: 'timeSlotId is required' });
-      return;
+      throw new ValidationError('timeSlotId is required');
     }
 
     let booking;
 
     if (req.user) {
-      // Logged-in user booking
-      booking = await createUserBooking({
-        userId: req.user.id,
-        timeSlotId,
-        notes
-      });
+      booking = await createUserBooking({ userId: req.user.id, timeSlotId, notes });
     } else {
-      // Guest booking
       if (!guestName || !guestEmail) {
-        res.status(400).json({
-          error: 'guestName and guestEmail are required for guest bookings'
-        });
-        return;
+        throw new ValidationError('guestName and guestEmail are required for guest bookings');
       }
-      booking = await createGuestBooking({
-        guestName,
-        guestEmail,
-        timeSlotId,
-        notes
-      });
+      booking = await createGuestBooking({ guestName, guestEmail, timeSlotId, notes });
     }
 
     res.status(201).json(booking);
-  } catch (error: any) {
-    const message = error.message || 'Failed to create booking';
-    const status = message.includes('not found') ? 404
-      : message.includes('already booked') || message.includes('no longer available') ? 409
-      : 400;
-    res.status(status).json({ error: message });
+  } catch (error) {
+    next(error);
   }
 });
 
 // GET /bookings — list all bookings
-router.get('/', async (_req: AuthRequest, res: Response) => {
+router.get('/', async (_req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const bookings = await getAllBookings();
     res.json(bookings);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message || 'Failed to fetch bookings' });
+  } catch (error) {
+    next(error);
   }
 });
 
 // GET /bookings/my — get bookings for the logged-in user
-router.get('/my', optionalAuth, async (req: AuthRequest, res: Response) => {
+router.get('/my', optionalAuth, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     if (!req.user) {
-      res.status(401).json({ error: 'Authentication required' });
-      return;
+      throw new UnauthorizedError();
     }
     const bookings = await getUserBookings(req.user.id);
     res.json(bookings);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message || 'Failed to fetch bookings' });
+  } catch (error) {
+    next(error);
   }
 });
 
 // GET /bookings/:id — get a single booking
-router.get('/:id', async (req: AuthRequest, res: Response) => {
+router.get('/:id', async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const booking = await getBookingById(req.params.id as string);
     if (!booking) {
-      res.status(404).json({ error: 'Booking not found' });
-      return;
+      throw new NotFoundError('Booking');
     }
     res.json(booking);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message || 'Failed to fetch booking' });
+  } catch (error) {
+    next(error);
   }
 });
 
 // PATCH /bookings/:id/status — admin accept / decline a booking
-router.patch('/:id/status', requireAuth, requireAdmin, async (req: AuthRequest, res: Response) => {
+router.patch('/:id/status', requireAuth, requireAdmin, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const { status } = req.body;
     if (!status) {
-      res.status(400).json({ error: 'status is required (pending, accepted, or declined)' });
-      return;
+      throw new ValidationError('status is required (pending, accepted, or declined)');
     }
     const booking = await updateBookingStatus(req.params.id as string, status);
     res.json(booking);
-  } catch (error: any) {
-    const message = error.message || 'Failed to update booking status';
-    const statusCode = message.includes('not found') ? 404
-      : message.includes('Invalid status') ? 400
-      : message.includes('already booked') ? 409
-      : 500;
-    res.status(statusCode).json({ error: message });
+  } catch (error) {
+    next(error);
   }
 });
 
 // PATCH /bookings/:id — admin edit booking details (notes, timeSlotId)
-router.patch('/:id', requireAuth, requireAdmin, async (req: AuthRequest, res: Response) => {
+router.patch('/:id', requireAuth, requireAdmin, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const { notes, timeSlotId } = req.body;
     if (notes === undefined && !timeSlotId) {
-      res.status(400).json({ error: 'Provide at least one field to update (notes, timeSlotId)' });
-      return;
+      throw new ValidationError('Provide at least one field to update (notes, timeSlotId)');
     }
     const booking = await editBooking(req.params.id as string, { notes, timeSlotId });
     res.json(booking);
-  } catch (error: any) {
-    const message = error.message || 'Failed to edit booking';
-    const statusCode = message.includes('not found') ? 404
-      : message.includes('no longer available') ? 409
-      : 500;
-    res.status(statusCode).json({ error: message });
+  } catch (error) {
+    next(error);
   }
 });
 

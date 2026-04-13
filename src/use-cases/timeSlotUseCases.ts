@@ -1,4 +1,5 @@
 import TimeSlot, { ITimeSlot } from '../domain/TimeSlot';
+import { ValidationError, ConflictError } from '../domain/errors';
 
 interface CreateTimeSlotInput {
   date: string;
@@ -10,13 +11,12 @@ export const createTimeSlot = async (input: CreateTimeSlotInput): Promise<ITimeS
   const { date, startTime, endTime } = input;
 
   if (!date || !startTime || !endTime) {
-    throw new Error('Date, startTime, and endTime are required');
+    throw new ValidationError('Date, startTime, and endTime are required');
   }
 
-  // Check for overlapping slot on the same date
   const existing = await TimeSlot.findOne({ date: new Date(date), startTime, endTime });
   if (existing) {
-    throw new Error('A time slot with the same date, start time, and end time already exists');
+    throw new ConflictError('A time slot with the same date, start time, and end time already exists');
   }
 
   const timeSlot = await TimeSlot.create({

@@ -1,57 +1,30 @@
 import { Request, Response, NextFunction } from 'express';
-import { errorLogger } from './logger';
+import { AppError } from '../../domain/errors';
 
-interface CustomError extends Error {
-  statusCode?: number;
-  status?: string;
-  code?: number;
-  errors?: any;
-}
-
-export const errorHandler = (
-  err: CustomError,
-  req: Request,
+/**
+ * Centralized error-handling middleware (Week 9).
+ *
+ * Must be registered AFTER all routes so Express forwards
+ * thrown / next(err) errors here.
+ *
+ * - AppError (operational) → returns the error's statusCode + message.
+ * - Unknown errors        → returns 500 and a generic message;
+ *                           the real error is logged server-side.
+ */
+const errorHandler = (
+  err: Error,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
-  errorLogger(err);
-
-  let error: CustomError = { ...err };
-  error.message = err.message;
-
-  // Mongoose bad ObjectId
-  if (err.name === 'CastError') {
-    error.message = 'Resource not found';
-    error.statusCode = 404;
+  if (err instanceof AppError) {
+    res.status(err.statusCode).json({ error: err.message });
+    return;
   }
 
-  // Mongoose duplicate key
-  if (err.code === 11000) {
-    error.message = 'Duplicate field value entered';
-    error.statusCode = 400;
-  }
-
-  // Mongoose validation error
-  if (err.name === 'ValidationError') {
-    error.message = Object.values(err.errors)
-      .map((val: any) => val.message)
-      .join(', ');
-    error.statusCode = 400;
-  }
-
-  // JWT errors
-  if (err.name === 'JsonWebTokenError') {
-    error.message = 'Invalid token';
-    error.statusCode = 401;
-  }
-
-  if (err.name === 'TokenExpiredError') {
-    error.message = 'Token expired';
-    error.statusCode = 401;
-  }
-
-  res.status(error.statusCode || 500).json({
-    success: false,
-    error: error.message || 'Server Error'
-  });
+  // Unexpected / programmer error — don't leak details to the client
+  console.error('Unexpected error:', err);
+  res.status(500).json({ error: 'Internal server error' });
 };
+
+export default errorHandler;
