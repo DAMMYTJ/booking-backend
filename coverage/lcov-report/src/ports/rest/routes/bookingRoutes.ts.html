@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.07% </span>
+                <span class="strong">21.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/54</span>
+                <span class='fraction'>13/60</span>
             </div>
         
             
@@ -39,7 +39,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -294,7 +294,7 @@ import {
 const router = Router();
 &nbsp;
 // POST /bookings — create a booking (guest or logged-in user)
-router.post('/', optionalAuth, <span class="fstat-no" title="function not covered" >async </span>(req: AuthRequest, res: Response, next: NextFunction) =&gt; {
+router.post('/', optionalAuth, <span class="fstat-no" title="function not covered" >async (r</span>eq: AuthRequest, res: Response, next: NextFunction) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const { timeSlotId, notes, guestName, guestEmail } = <span class="cstat-no" title="statement not covered" >req.body;</span>
 &nbsp;
@@ -320,7 +320,7 @@ router.post('/', optionalAuth, <span class="fstat-no" title="function not covere
 });
 &nbsp;
 // GET /bookings — list all bookings
-router.get('/', <span class="fstat-no" title="function not covered" >async </span>(_req: AuthRequest, res: Response, next: NextFunction) =&gt; {
+router.get('/', <span class="fstat-no" title="function not covered" >async (_</span>req: AuthRequest, res: Response, next: NextFunction) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const bookings = <span class="cstat-no" title="statement not covered" >await getAllBookings();</span>
 <span class="cstat-no" title="statement not covered" >    res.json(bookings);</span>
@@ -330,7 +330,7 @@ router.get('/', <span class="fstat-no" title="function not covered" >async </spa
 });
 &nbsp;
 // GET /bookings/my — get bookings for the logged-in user
-router.get('/my', optionalAuth, <span class="fstat-no" title="function not covered" >async </span>(req: AuthRequest, res: Response, next: NextFunction) =&gt; {
+router.get('/my', optionalAuth, <span class="fstat-no" title="function not covered" >async (r</span>eq: AuthRequest, res: Response, next: NextFunction) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
 <span class="cstat-no" title="statement not covered" >    if (!req.user) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new UnauthorizedError();</span>
@@ -343,7 +343,7 @@ router.get('/my', optionalAuth, <span class="fstat-no" title="function not cover
 });
 &nbsp;
 // GET /bookings/:id — get a single booking
-router.get('/:id', <span class="fstat-no" title="function not covered" >async </span>(req: AuthRequest, res: Response, next: NextFunction) =&gt; {
+router.get('/:id', <span class="fstat-no" title="function not covered" >async (r</span>eq: AuthRequest, res: Response, next: NextFunction) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const booking = <span class="cstat-no" title="statement not covered" >await getBookingById(req.params.id as string);</span>
 <span class="cstat-no" title="statement not covered" >    if (!booking) {</span>
@@ -356,7 +356,7 @@ router.get('/:id', <span class="fstat-no" title="function not covered" >async </
 });
 &nbsp;
 // PATCH /bookings/:id/status — admin accept / decline a booking
-router.patch('/:id/status', requireAuth, requireAdmin, <span class="fstat-no" title="function not covered" >async </span>(req: AuthRequest, res: Response, next: NextFunction) =&gt; {
+router.patch('/:id/status', requireAuth, requireAdmin, <span class="fstat-no" title="function not covered" >async (r</span>eq: AuthRequest, res: Response, next: NextFunction) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const { status } = <span class="cstat-no" title="statement not covered" >req.body;</span>
 <span class="cstat-no" title="statement not covered" >    if (!status) {</span>
@@ -370,7 +370,7 @@ router.patch('/:id/status', requireAuth, requireAdmin, <span class="fstat-no" ti
 });
 &nbsp;
 // PATCH /bookings/:id — admin edit booking details (notes, timeSlotId)
-router.patch('/:id', requireAuth, requireAdmin, <span class="fstat-no" title="function not covered" >async </span>(req: AuthRequest, res: Response, next: NextFunction) =&gt; {
+router.patch('/:id', requireAuth, requireAdmin, <span class="fstat-no" title="function not covered" >async (r</span>eq: AuthRequest, res: Response, next: NextFunction) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const { notes, timeSlotId } = <span class="cstat-no" title="statement not covered" >req.body;</span>
 <span class="cstat-no" title="statement not covered" >    if (notes === undefined &amp;&amp; !timeSlotId) {</span>
@@ -391,7 +391,7 @@ export default router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-14T20:33:07.622Z
+                at 2026-04-14T20:48:58.520Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
