@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1776051680436" clover="3.2.0">
-  <project timestamp="1776051680436" name="All files">
-    <metrics statements="350" coveredstatements="154" conditionals="168" coveredconditionals="23" methods="39" coveredmethods="14" elements="557" coveredelements="191" complexity="0" loc="350" ncloc="350" packages="8" files="20" classes="20"/>
+<coverage generated="1776197839595" clover="3.2.0">
+  <project timestamp="1776197839595" name="All files">
+    <metrics statements="350" coveredstatements="162" conditionals="168" coveredconditionals="25" methods="39" coveredmethods="16" elements="557" coveredelements="203" complexity="0" loc="350" ncloc="350" packages="8" files="20" classes="20"/>
     <package name="src">
       <metrics statements="23" coveredstatements="23" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="3"/>
       <file name="index.ts" path="/Users/dammy/Open Source Project/booking-backend/src/index.ts">
@@ -54,35 +54,35 @@
       </file>
     </package>
     <package name="src.domain.errors">
-      <metrics statements="17" coveredstatements="9" conditionals="5" coveredconditionals="3" methods="4" coveredmethods="2"/>
+      <metrics statements="17" coveredstatements="17" conditionals="5" coveredconditionals="5" methods="4" coveredmethods="4"/>
       <file name="AppError.ts" path="/Users/dammy/Open Source Project/booking-backend/src/domain/errors/AppError.ts">
-        <metrics statements="5" coveredstatements="5" conditionals="4" coveredconditionals="3" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="6" count="3" type="stmt"/>
-        <line num="7" count="3" type="stmt"/>
-        <line num="8" count="3" type="cond" truecount="3" falsecount="1"/>
-        <line num="9" count="3" type="stmt"/>
+        <metrics statements="5" coveredstatements="5" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="6" count="17" type="stmt"/>
+        <line num="7" count="17" type="stmt"/>
+        <line num="8" count="17" type="cond" truecount="4" falsecount="0"/>
+        <line num="9" count="17" type="stmt"/>
       </file>
       <file name="NotFoundError.ts" path="/Users/dammy/Open Source Project/booking-backend/src/domain/errors/NotFoundError.ts">
-        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-      </file>
-      <file name="UnauthorizedError.ts" path="/Users/dammy/Open Source Project/booking-backend/src/domain/errors/UnauthorizedError.ts">
-        <metrics statements="4" coveredstatements="4" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="5" count="2" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+      </file>
+      <file name="UnauthorizedError.ts" path="/Users/dammy/Open Source Project/booking-backend/src/domain/errors/UnauthorizedError.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="5" type="stmt"/>
+        <line num="6" count="5" type="stmt"/>
       </file>
       <file name="ValidationError.ts" path="/Users/dammy/Open Source Project/booking-backend/src/domain/errors/ValidationError.ts">
-        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
       </file>
     </package>
     <package name="src.infrastructure">
