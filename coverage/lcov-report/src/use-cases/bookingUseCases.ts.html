@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.51% </span>
+                <span class="strong">20.48% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/82</span>
+                <span class='fraction'>17/83</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12% </span>
+                <span class="strong">13.15% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/75</span>
+                <span class='fraction'>10/76</span>
             </div>
         
             
@@ -243,14 +243,8 @@
 <a name='L178'></a><a href='#L178'>178</a>
 <a name='L179'></a><a href='#L179'>179</a>
 <a name='L180'></a><a href='#L180'>180</a>
-<a name='L181'></a><a href='#L181'>181</a>
-<a name='L182'></a><a href='#L182'>182</a>
-<a name='L183'></a><a href='#L183'>183</a>
-<a name='L184'></a><a href='#L184'>184</a>
-<a name='L185'></a><a href='#L185'>185</a>
-<a name='L186'></a><a href='#L186'>186</a>
-<a name='L187'></a><a href='#L187'>187</a>
-<a name='L188'></a><a href='#L188'>188</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L181'></a><a href='#L181'>181</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -283,14 +277,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -318,14 +310,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -388,7 +378,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -411,7 +400,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -421,9 +409,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -439,6 +425,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Booking, { IBooking } from '../domain/Booking';
 import TimeSlot from '../domain/TimeSlot';
+import { ValidationError, NotFoundError, ConflictError } from '../domain/errors';
 &nbsp;
 type BookingStatus = 'pending' | 'accepted' | 'declined';
 &nbsp;
@@ -459,27 +446,25 @@ export const createGuestBooking = <span class="fstat-no" title="function not cov
   const { guestName, guestEmail, timeSlotId, notes } = <span class="cstat-no" title="statement not covered" >input;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (!guestName || !guestEmail) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('Guest name and email are required for guest bookings');</span>
+<span class="cstat-no" title="statement not covered" >    throw new ValidationError('Guest name and email are required for guest bookings');</span>
   }
 &nbsp;
   const timeSlot = <span class="cstat-no" title="statement not covered" >await TimeSlot.findById(timeSlotId);</span>
 <span class="cstat-no" title="statement not covered" >  if (!timeSlot) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('Time slot not found');</span>
+<span class="cstat-no" title="statement not covered" >    throw new NotFoundError('Time slot');</span>
   }
 <span class="cstat-no" title="statement not covered" >  if (!timeSlot.isAvailable) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('Time slot is no longer available');</span>
+<span class="cstat-no" title="statement not covered" >    throw new ConflictError('Time slot is no longer available');</span>
   }
 &nbsp;
-  // Check for existing booking on this time slot
   const existingBooking = <span class="cstat-no" title="statement not covered" >await Booking.findOne({</span>
     timeSlotId,
     status: { $ne: 'declined' }
   });
 <span class="cstat-no" title="statement not covered" >  if (existingBooking) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('This time slot is already booked');</span>
+<span class="cstat-no" title="statement not covered" >    throw new ConflictError('This time slot is already booked');</span>
   }
 &nbsp;
-  // Mark slot as unavailable
 <span class="cstat-no" title="statement not covered" >  timeSlot.isAvailable = false;</span>
 <span class="cstat-no" title="statement not covered" >  await timeSlot.save();</span>
 &nbsp;
@@ -499,22 +484,20 @@ export const createUserBooking = <span class="fstat-no" title="function not cove
 &nbsp;
   const timeSlot = <span class="cstat-no" title="statement not covered" >await TimeSlot.findById(timeSlotId);</span>
 <span class="cstat-no" title="statement not covered" >  if (!timeSlot) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('Time slot not found');</span>
+<span class="cstat-no" title="statement not covered" >    throw new NotFoundError('Time slot');</span>
   }
 <span class="cstat-no" title="statement not covered" >  if (!timeSlot.isAvailable) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('Time slot is no longer available');</span>
+<span class="cstat-no" title="statement not covered" >    throw new ConflictError('Time slot is no longer available');</span>
   }
 &nbsp;
-  // Check for existing booking on this time slot
   const existingBooking = <span class="cstat-no" title="statement not covered" >await Booking.findOne({</span>
     timeSlotId,
     status: { $ne: 'declined' }
   });
 <span class="cstat-no" title="statement not covered" >  if (existingBooking) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('This time slot is already booked');</span>
+<span class="cstat-no" title="statement not covered" >    throw new ConflictError('This time slot is already booked');</span>
   }
 &nbsp;
-  // Mark slot as unavailable
 <span class="cstat-no" title="statement not covered" >  timeSlot.isAvailable = false;</span>
 <span class="cstat-no" title="statement not covered" >  await timeSlot.save();</span>
 &nbsp;
@@ -550,12 +533,12 @@ export const updateBookingStatus = <span class="fstat-no" title="function not co
   status: BookingStatus
 ): Promise&lt;IBooking&gt; =&gt; {
 <span class="cstat-no" title="statement not covered" >  if (!['pending', 'accepted', 'declined'].includes(status)) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('Invalid status. Must be pending, accepted, or declined');</span>
+<span class="cstat-no" title="statement not covered" >    throw new ValidationError('Invalid status. Must be pending, accepted, or declined');</span>
   }
 &nbsp;
   const booking = <span class="cstat-no" title="statement not covered" >await Booking.findById(bookingId);</span>
 <span class="cstat-no" title="statement not covered" >  if (!booking) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('Booking not found');</span>
+<span class="cstat-no" title="statement not covered" >    throw new NotFoundError('Booking');</span>
   }
 &nbsp;
   const previousStatus = <span class="cstat-no" title="statement not covered" >booking.status;</span>
@@ -575,10 +558,9 @@ export const updateBookingStatus = <span class="fstat-no" title="function not co
       status: { $ne: 'declined' }
     });
 <span class="cstat-no" title="statement not covered" >    if (conflicting) {</span>
-      // Revert — slot was taken by another booking
 <span class="cstat-no" title="statement not covered" >      booking.status = 'declined';</span>
 <span class="cstat-no" title="statement not covered" >      await booking.save();</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error('This time slot is already booked by another booking');</span>
+<span class="cstat-no" title="statement not covered" >      throw new ConflictError('This time slot is already booked by another booking');</span>
     }
 <span class="cstat-no" title="statement not covered" >    await TimeSlot.findByIdAndUpdate(booking.timeSlotId, { isAvailable: false });</span>
   }
@@ -595,22 +577,19 @@ export const editBooking = <span class="fstat-no" title="function not covered" >
 ): Promise&lt;IBooking&gt; =&gt; {
   const booking = <span class="cstat-no" title="statement not covered" >await Booking.findById(bookingId);</span>
 <span class="cstat-no" title="statement not covered" >  if (!booking) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error('Booking not found');</span>
+<span class="cstat-no" title="statement not covered" >    throw new NotFoundError('Booking');</span>
   }
 &nbsp;
-  // If changing time slot, validate the new slot
 <span class="cstat-no" title="statement not covered" >  if (updates.timeSlotId &amp;&amp; updates.timeSlotId !== booking.timeSlotId.toString()) {</span>
     const newSlot = <span class="cstat-no" title="statement not covered" >await TimeSlot.findById(updates.timeSlotId);</span>
 <span class="cstat-no" title="statement not covered" >    if (!newSlot) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error('Time slot not found');</span>
+<span class="cstat-no" title="statement not covered" >      throw new NotFoundError('Time slot');</span>
     }
 <span class="cstat-no" title="statement not covered" >    if (!newSlot.isAvailable) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error('Time slot is no longer available');</span>
+<span class="cstat-no" title="statement not covered" >      throw new ConflictError('Time slot is no longer available');</span>
     }
 &nbsp;
-    // Free the old slot
 <span class="cstat-no" title="statement not covered" >    await TimeSlot.findByIdAndUpdate(booking.timeSlotId, { isAvailable: true });</span>
-    // Lock the new slot
 <span class="cstat-no" title="statement not covered" >    newSlot.isAvailable = false;</span>
 <span class="cstat-no" title="statement not covered" >    await newSlot.save();</span>
 &nbsp;
@@ -631,7 +610,7 @@ export const editBooking = <span class="fstat-no" title="function not covered" >
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-14T20:17:19.570Z
+                at 2026-04-14T20:33:07.622Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

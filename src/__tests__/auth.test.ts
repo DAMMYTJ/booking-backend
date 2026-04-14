@@ -64,7 +64,7 @@ describe('POST /auth/login', () => {
       .post('/auth/login')
       .send({ email: 'test@test.com', password: 'wrongpassword' });
     expect(res.status).toBe(401);
-    expect(res.body.success).toBe(false);
+    expect(res.body.error).toBeDefined();
   });
 
   it('should return 400 if fields are missing', async () => {
@@ -80,7 +80,7 @@ describe('POST /auth/login', () => {
       .post('/auth/login')
       .send({ email: 'nobody@test.com', password: '123456' });
     expect(res.status).toBe(401);
-    expect(res.body.success).toBe(false);
+    expect(res.body.error).toBeDefined();
   });
 });
 

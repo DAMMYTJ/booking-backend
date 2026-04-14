@@ -1,5 +1,6 @@
 import Booking, { IBooking } from '../domain/Booking';
 import TimeSlot from '../domain/TimeSlot';
+import { ValidationError, NotFoundError, ConflictError } from '../domain/errors';
 
 type BookingStatus = 'pending' | 'accepted' | 'declined';
 
@@ -20,27 +21,25 @@ export const createGuestBooking = async (input: GuestBookingInput): Promise<IBoo
   const { guestName, guestEmail, timeSlotId, notes } = input;
 
   if (!guestName || !guestEmail) {
-    throw new Error('Guest name and email are required for guest bookings');
+    throw new ValidationError('Guest name and email are required for guest bookings');
   }
 
   const timeSlot = await TimeSlot.findById(timeSlotId);
   if (!timeSlot) {
-    throw new Error('Time slot not found');
+    throw new NotFoundError('Time slot');
   }
   if (!timeSlot.isAvailable) {
-    throw new Error('Time slot is no longer available');
+    throw new ConflictError('Time slot is no longer available');
   }
 
-  // Check for existing booking on this time slot
   const existingBooking = await Booking.findOne({
     timeSlotId,
     status: { $ne: 'declined' }
   });
   if (existingBooking) {
-    throw new Error('This time slot is already booked');
+    throw new ConflictError('This time slot is already booked');
   }
 
-  // Mark slot as unavailable
   timeSlot.isAvailable = false;
   await timeSlot.save();
 
@@ -60,22 +59,20 @@ export const createUserBooking = async (input: UserBookingInput): Promise<IBooki
 
   const timeSlot = await TimeSlot.findById(timeSlotId);
   if (!timeSlot) {
-    throw new Error('Time slot not found');
+    throw new NotFoundError('Time slot');
   }
   if (!timeSlot.isAvailable) {
-    throw new Error('Time slot is no longer available');
+    throw new ConflictError('Time slot is no longer available');
   }
 
-  // Check for existing booking on this time slot
   const existingBooking = await Booking.findOne({
     timeSlotId,
     status: { $ne: 'declined' }
   });
   if (existingBooking) {
-    throw new Error('This time slot is already booked');
+    throw new ConflictError('This time slot is already booked');
   }
 
-  // Mark slot as unavailable
   timeSlot.isAvailable = false;
   await timeSlot.save();
 
@@ -111,12 +108,12 @@ export const updateBookingStatus = async (
   status: BookingStatus
 ): Promise<IBooking> => {
   if (!['pending', 'accepted', 'declined'].includes(status)) {
-    throw new Error('Invalid status. Must be pending, accepted, or declined');
+    throw new ValidationError('Invalid status. Must be pending, accepted, or declined');
   }
 
   const booking = await Booking.findById(bookingId);
   if (!booking) {
-    throw new Error('Booking not found');
+    throw new NotFoundError('Booking');
   }
 
   const previousStatus = booking.status;
@@ -136,10 +133,9 @@ export const updateBookingStatus = async (
       status: { $ne: 'declined' }
     });
     if (conflicting) {
-      // Revert — slot was taken by another booking
       booking.status = 'declined';
       await booking.save();
-      throw new Error('This time slot is already booked by another booking');
+      throw new ConflictError('This time slot is already booked by another booking');
     }
     await TimeSlot.findByIdAndUpdate(booking.timeSlotId, { isAvailable: false });
   }
@@ -156,22 +152,19 @@ export const editBooking = async (
 ): Promise<IBooking> => {
   const booking = await Booking.findById(bookingId);
   if (!booking) {
-    throw new Error('Booking not found');
+    throw new NotFoundError('Booking');
   }
 
-  // If changing time slot, validate the new slot
   if (updates.timeSlotId && updates.timeSlotId !== booking.timeSlotId.toString()) {
     const newSlot = await TimeSlot.findById(updates.timeSlotId);
     if (!newSlot) {
-      throw new Error('Time slot not found');
+      throw new NotFoundError('Time slot');
     }
     if (!newSlot.isAvailable) {
-      throw new Error('Time slot is no longer available');
+      throw new ConflictError('Time slot is no longer available');
     }
 
-    // Free the old slot
     await TimeSlot.findByIdAndUpdate(booking.timeSlotId, { isAvailable: true });
-    // Lock the new slot
     newSlot.isAvailable = false;
     await newSlot.save();
 

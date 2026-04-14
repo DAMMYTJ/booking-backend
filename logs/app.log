@@ -1,0 +1,131 @@
+[2026-03-27T14:21:29.194Z] INFO: POST /auth/register
+[2026-03-27T14:21:44.641Z] INFO: POST /auth/login
+[2026-04-13T03:35:38.229Z] INFO: POST /auth/register
+[2026-04-13T03:35:38.374Z] INFO: POST /auth/register
+[2026-04-13T03:35:38.375Z] INFO: POST /auth/register
+[2026-04-13T03:35:38.383Z] ERROR: User with this email already exists - Error: User with this email already exists
+    at registerUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/RegisterUser.ts:16:11)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:14:20
+[2026-04-13T03:35:38.388Z] INFO: POST /auth/login
+[2026-04-13T03:35:38.464Z] INFO: POST /auth/login
+[2026-04-13T03:35:38.537Z] ERROR: Invalid email or password - Error: Invalid email or password
+    at loginUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/LoginUser.ts:22:11)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:28:20
+[2026-04-13T03:35:38.539Z] INFO: POST /auth/login
+[2026-04-13T03:37:27.528Z] INFO: POST /auth/register
+[2026-04-13T03:37:27.688Z] INFO: POST /auth/register
+[2026-04-13T03:37:27.690Z] INFO: POST /auth/register
+[2026-04-13T03:37:27.698Z] ERROR: User with this email already exists - Error: User with this email already exists
+    at registerUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/RegisterUser.ts:16:11)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:14:20
+[2026-04-13T03:37:27.703Z] INFO: POST /auth/register
+[2026-04-13T03:37:27.705Z] INFO: POST /auth/login
+[2026-04-13T03:37:27.781Z] INFO: POST /auth/login
+[2026-04-13T03:37:27.854Z] ERROR: Invalid email or password - UnauthorizedError: Invalid email or password
+    at loginUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/LoginUser.ts:21:11)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:28:20
+[2026-04-13T03:37:27.856Z] INFO: POST /auth/login
+[2026-04-13T03:37:27.857Z] INFO: POST /auth/login
+[2026-04-13T03:37:27.858Z] ERROR: Invalid email or password - UnauthorizedError: Invalid email or password
+    at loginUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/LoginUser.ts:16:11)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:28:20
+[2026-04-13T03:37:27.859Z] INFO: GET /
+[2026-04-13T03:39:25.491Z] INFO: POST /auth/register
+[2026-04-13T03:39:25.776Z] INFO: POST /auth/register
+[2026-04-13T03:39:25.779Z] INFO: POST /auth/register
+[2026-04-13T03:39:25.789Z] ERROR: User with this email already exists - Error: User with this email already exists
+    at registerUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/RegisterUser.ts:16:11)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:14:20
+[2026-04-13T03:39:25.794Z] INFO: POST /auth/register
+[2026-04-13T03:39:25.797Z] INFO: POST /auth/login
+[2026-04-13T03:39:25.878Z] INFO: POST /auth/login
+[2026-04-13T03:39:25.949Z] ERROR: Invalid email or password - UnauthorizedError: Invalid email or password
+    at loginUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/LoginUser.ts:21:11)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:28:20
+[2026-04-13T03:39:25.951Z] INFO: POST /auth/login
+[2026-04-13T03:39:25.952Z] INFO: POST /auth/login
+[2026-04-13T03:39:25.953Z] ERROR: Invalid email or password - UnauthorizedError: Invalid email or password
+    at loginUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/LoginUser.ts:16:11)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:28:20
+[2026-04-13T03:39:25.954Z] INFO: GET /
+[2026-04-13T03:41:19.742Z] INFO: POST /auth/register
+[2026-04-13T03:41:19.863Z] INFO: POST /auth/register
+[2026-04-13T03:41:19.865Z] INFO: POST /auth/register
+[2026-04-13T03:41:19.871Z] ERROR: User with this email already exists - AppError: User with this email already exists
+    at registerUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/RegisterUser.ts:17:11)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:14:20
+[2026-04-13T03:41:19.873Z] INFO: POST /auth/register
+[2026-04-13T03:41:19.875Z] INFO: POST /auth/login
+[2026-04-13T03:41:19.948Z] INFO: POST /auth/login
+[2026-04-13T03:41:20.019Z] ERROR: Invalid email or password - UnauthorizedError: Invalid email or password
+    at loginUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/LoginUser.ts:21:11)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:28:20
+[2026-04-13T03:41:20.021Z] INFO: POST /auth/login
+[2026-04-13T03:41:20.022Z] INFO: POST /auth/login
+[2026-04-13T03:41:20.023Z] ERROR: Invalid email or password - UnauthorizedError: Invalid email or password
+    at loginUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/LoginUser.ts:16:11)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:28:20
+[2026-04-13T03:41:20.024Z] INFO: GET /
+[2026-04-14T20:17:18.607Z] INFO: POST /auth/register
+[2026-04-14T20:17:18.745Z] INFO: POST /auth/register
+[2026-04-14T20:17:18.747Z] INFO: POST /auth/register
+[2026-04-14T20:17:18.756Z] ERROR: User with this email already exists - AppError: User with this email already exists
+    at registerUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/RegisterUser.ts:17:11)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:14:20
+[2026-04-14T20:17:18.759Z] INFO: POST /auth/register
+[2026-04-14T20:17:18.760Z] INFO: POST /auth/login
+[2026-04-14T20:17:18.834Z] INFO: POST /auth/login
+[2026-04-14T20:17:18.905Z] ERROR: Invalid email or password - UnauthorizedError: Invalid email or password
+    at loginUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/LoginUser.ts:21:11)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:28:20
+[2026-04-14T20:17:18.909Z] INFO: POST /auth/login
+[2026-04-14T20:17:18.910Z] INFO: POST /auth/login
+[2026-04-14T20:17:18.911Z] ERROR: Invalid email or password - UnauthorizedError: Invalid email or password
+    at loginUser (/Users/dammy/Open Source Project/booking-backend/src/use-cases/auth/LoginUser.ts:16:11)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /Users/dammy/Open Source Project/booking-backend/src/ports/rest/routes/authRoutes.ts:28:20
+[2026-04-14T20:17:18.912Z] INFO: GET /
+[2026-04-14T20:28:59.113Z] INFO: POST /auth/register
+[2026-04-14T20:28:59.236Z] INFO: POST /auth/register
+[2026-04-14T20:28:59.238Z] INFO: POST /auth/register
+[2026-04-14T20:28:59.250Z] INFO: POST /auth/register
+[2026-04-14T20:28:59.252Z] INFO: POST /auth/login
+[2026-04-14T20:28:59.326Z] INFO: POST /auth/login
+[2026-04-14T20:28:59.408Z] INFO: POST /auth/login
+[2026-04-14T20:28:59.410Z] INFO: POST /auth/login
+[2026-04-14T20:28:59.413Z] INFO: GET /
+[2026-04-14T20:30:14.050Z] INFO: POST /auth/register
+[2026-04-14T20:30:14.165Z] INFO: POST /auth/register
+[2026-04-14T20:30:14.168Z] INFO: POST /auth/register
+[2026-04-14T20:30:14.179Z] INFO: POST /auth/register
+[2026-04-14T20:30:14.182Z] INFO: POST /auth/login
+[2026-04-14T20:30:14.255Z] INFO: POST /auth/login
+[2026-04-14T20:30:14.329Z] INFO: POST /auth/login
+[2026-04-14T20:30:14.331Z] INFO: POST /auth/login
+[2026-04-14T20:30:14.334Z] INFO: GET /
+[2026-04-14T20:31:09.127Z] INFO: POST /auth/register
+[2026-04-14T20:31:09.269Z] INFO: POST /auth/register
+[2026-04-14T20:31:09.272Z] INFO: POST /auth/register
+[2026-04-14T20:31:09.276Z] INFO: POST /auth/register
+[2026-04-14T20:31:09.278Z] INFO: POST /auth/login
+[2026-04-14T20:31:09.352Z] INFO: POST /auth/login
+[2026-04-14T20:31:09.428Z] INFO: POST /auth/login
+[2026-04-14T20:31:09.430Z] INFO: POST /auth/login
+[2026-04-14T20:31:09.433Z] INFO: GET /
+[2026-04-14T20:33:07.175Z] INFO: POST /auth/register
+[2026-04-14T20:33:07.294Z] INFO: POST /auth/register
+[2026-04-14T20:33:07.296Z] INFO: POST /auth/register
+[2026-04-14T20:33:07.300Z] INFO: POST /auth/register
+[2026-04-14T20:33:07.303Z] INFO: POST /auth/login
+[2026-04-14T20:33:07.379Z] INFO: POST /auth/login
+[2026-04-14T20:33:07.454Z] INFO: POST /auth/login
+[2026-04-14T20:33:07.456Z] INFO: POST /auth/login
+[2026-04-14T20:33:07.460Z] INFO: GET /
