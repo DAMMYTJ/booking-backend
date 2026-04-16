@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../../domain/User';
+import { AppError } from '../../domain/errors/AppError';
 
 interface RegisterInput {
   name: string;
@@ -13,7 +14,7 @@ export const registerUser = async (input: RegisterInput) => {
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    throw new Error('User with this email already exists');
+    throw new AppError('User with this email already exists', 400);
   }
 
   const salt = await bcrypt.genSalt(10);
