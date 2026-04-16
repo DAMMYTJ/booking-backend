@@ -1,57 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
-import { errorLogger } from './logger';
+import { AppError } from '../../domain/errors/AppError';
 
-interface CustomError extends Error {
-  statusCode?: number;
-  status?: string;
-  code?: number;
-  errors?: any;
-}
-
-export const errorHandler = (
-  err: CustomError,
-  req: Request,
+const errorHandler = (
+  err: Error,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
-  errorLogger(err);
-
-  let error: CustomError = { ...err };
-  error.message = err.message;
-
-  // Mongoose bad ObjectId
-  if (err.name === 'CastError') {
-    error.message = 'Resource not found';
-    error.statusCode = 404;
+  if (err instanceof AppError) {
+    res.status(err.statusCode).json({ error: err.message });
+    return;
   }
 
-  // Mongoose duplicate key
-  if (err.code === 11000) {
-    error.message = 'Duplicate field value entered';
-    error.statusCode = 400;
-  }
-
-  // Mongoose validation error
-  if (err.name === 'ValidationError') {
-    error.message = Object.values(err.errors)
-      .map((val: any) => val.message)
-      .join(', ');
-    error.statusCode = 400;
-  }
-
-  // JWT errors
-  if (err.name === 'JsonWebTokenError') {
-    error.message = 'Invalid token';
-    error.statusCode = 401;
-  }
-
-  if (err.name === 'TokenExpiredError') {
-    error.message = 'Token expired';
-    error.statusCode = 401;
-  }
-
-  res.status(error.statusCode || 500).json({
-    success: false,
-    error: error.message || 'Server Error'
-  });
+  console.error('Unexpected error:', err);
+  res.status(500).json({ error: 'Internal server error' });
 };
+
+export default errorHandler;

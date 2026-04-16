@@ -1,6 +1,3 @@
-// Admin authentication and authorization middleware
-
-// Import Express response + middleware next handler types
 import { Response, NextFunction } from 'express';
 
 // Import JWT library to verify tokens
@@ -8,6 +5,7 @@ import jwt from 'jsonwebtoken';
 
 // Import custom request type that includes req.user
 import { AuthRequest } from './optionalAuth';
+import { UnauthorizedError, ForbiddenError } from '../../domain/errors';
 
 
 /**
@@ -15,19 +13,12 @@ import { AuthRequest } from './optionalAuth';
  * This middleware checks whether the user is logged in using JWT.
  * If token is missing or invalid → request is rejected.
  */
-export const requireAuth = (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-): void => {
-
-  // Read Authorization header from request
-  // Example format: Bearer eyJhbGciOiJIUzI1NiIs...
+export const requireAuth = (req: AuthRequest, _res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
 
   // If header missing OR token not in Bearer format → reject request
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    res.status(401).json({ error: 'Authentication required' });
+    next(new UnauthorizedError());
     return;
   }
 
@@ -51,10 +42,7 @@ export const requireAuth = (
     next();
 
   } catch {
-
-    // If token invalid or expired → reject request
-    res.status(401).json({ error: 'Invalid or expired token' });
-
+    next(new UnauthorizedError('Invalid or expired token'));
   }
 };
 
@@ -64,17 +52,9 @@ export const requireAuth = (
  * This middleware ensures only admin users can access certain routes.
  * Must run AFTER requireAuth middleware.
  */
-export const requireAdmin = (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-): void => {
-
-  // Check if user exists AND role is admin
+export const requireAdmin = (req: AuthRequest, _res: Response, next: NextFunction): void => {
   if (!req.user || req.user.role !== 'admin') {
-
-    // If not admin → block access
-    res.status(403).json({ error: 'Admin access required' });
+    next(new ForbiddenError('Admin access required'));
     return;
 
   }

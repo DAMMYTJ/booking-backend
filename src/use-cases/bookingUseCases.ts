@@ -3,6 +3,7 @@ import Booking, { IBooking } from '../domain/Booking';
 
 // Import TimeSlot model
 import TimeSlot from '../domain/TimeSlot';
+import { ValidationError, NotFoundError, ConflictError } from '../domain/errors';
 
 // Allowed booking status values
 type BookingStatus = 'pending' | 'accepted' | 'declined';
@@ -29,7 +30,7 @@ export const createGuestBooking = async (input: GuestBookingInput): Promise<IBoo
 
   // Make sure guest name and email are provided
   if (!guestName || !guestEmail) {
-    throw new Error('Guest name and email are required for guest bookings');
+    throw new ValidationError('Guest name and email are required for guest bookings');
   }
 
   // Find selected time slot in database
@@ -37,15 +38,14 @@ export const createGuestBooking = async (input: GuestBookingInput): Promise<IBoo
 
   // If time slot does not exist, throw error
   if (!timeSlot) {
-    throw new Error('Time slot not found');
+    throw new NotFoundError('Time slot');
   }
 
   // If time slot is already unavailable, throw error
   if (!timeSlot.isAvailable) {
-    throw new Error('Time slot is no longer available');
+    throw new ConflictError('Time slot is no longer available');
   }
 
-  // Check whether another booking already exists for this same slot
   const existingBooking = await Booking.findOne({
     timeSlotId,
     status: { $ne: 'declined' } // ignore declined bookings
@@ -53,10 +53,9 @@ export const createGuestBooking = async (input: GuestBookingInput): Promise<IBoo
 
   // If booking already exists, stop duplicate booking
   if (existingBooking) {
-    throw new Error('This time slot is already booked');
+    throw new ConflictError('This time slot is already booked');
   }
 
-  // Mark time slot as unavailable because now it is booked
   timeSlot.isAvailable = false;
   await timeSlot.save();
 
@@ -83,15 +82,14 @@ export const createUserBooking = async (input: UserBookingInput): Promise<IBooki
 
   // If time slot does not exist
   if (!timeSlot) {
-    throw new Error('Time slot not found');
+    throw new NotFoundError('Time slot');
   }
 
   // If slot already unavailable
   if (!timeSlot.isAvailable) {
-    throw new Error('Time slot is no longer available');
+    throw new ConflictError('Time slot is no longer available');
   }
 
-  // Check if another active booking already exists for same slot
   const existingBooking = await Booking.findOne({
     timeSlotId,
     status: { $ne: 'declined' }
@@ -99,10 +97,9 @@ export const createUserBooking = async (input: UserBookingInput): Promise<IBooki
 
   // Prevent double booking
   if (existingBooking) {
-    throw new Error('This time slot is already booked');
+    throw new ConflictError('This time slot is already booked');
   }
 
-  // Mark slot unavailable
   timeSlot.isAvailable = false;
   await timeSlot.save();
 
@@ -147,7 +144,7 @@ export const updateBookingStatus = async (
 ): Promise<IBooking> => {
   // Make sure only valid status values are allowed
   if (!['pending', 'accepted', 'declined'].includes(status)) {
-    throw new Error('Invalid status. Must be pending, accepted, or declined');
+    throw new ValidationError('Invalid status. Must be pending, accepted, or declined');
   }
 
   // Find booking by ID
@@ -155,7 +152,7 @@ export const updateBookingStatus = async (
 
   // If booking not found
   if (!booking) {
-    throw new Error('Booking not found');
+    throw new NotFoundError('Booking');
   }
 
   // Save old status before changing it
@@ -180,12 +177,9 @@ export const updateBookingStatus = async (
     });
 
     if (conflicting) {
-      // If conflict found, revert status back to declined
       booking.status = 'declined';
       await booking.save();
-
-      // Throw error to prevent double booking
-      throw new Error('This time slot is already booked by another booking');
+      throw new ConflictError('This time slot is already booked by another booking');
     }
 
     // If no conflict, make time slot unavailable again
@@ -208,28 +202,24 @@ export const editBooking = async (
 
   // If booking not found
   if (!booking) {
-    throw new Error('Booking not found');
+    throw new NotFoundError('Booking');
   }
 
-  // If admin wants to change time slot and it is different from current slot
   if (updates.timeSlotId && updates.timeSlotId !== booking.timeSlotId.toString()) {
     // Find new slot
     const newSlot = await TimeSlot.findById(updates.timeSlotId);
 
     // If new slot does not exist
     if (!newSlot) {
-      throw new Error('Time slot not found');
+      throw new NotFoundError('Time slot');
     }
 
     // If new slot already unavailable
     if (!newSlot.isAvailable) {
-      throw new Error('Time slot is no longer available');
+      throw new ConflictError('Time slot is no longer available');
     }
 
-    // Free old slot
     await TimeSlot.findByIdAndUpdate(booking.timeSlotId, { isAvailable: true });
-
-    // Lock new slot
     newSlot.isAvailable = false;
     await newSlot.save();
 

@@ -1,4 +1,5 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
+import { ValidationError } from '../../../domain/errors';
 import {
   createTimeSlot,
   getAvailableTimeSlots,
@@ -8,41 +9,38 @@ import {
 const router = Router();
 
 // POST /timeslots — create a new time slot
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { date, startTime, endTime } = req.body;
 
     if (!date || !startTime || !endTime) {
-      res.status(400).json({ error: 'date, startTime, and endTime are required' });
-      return;
+      throw new ValidationError('date, startTime, and endTime are required');
     }
 
     const timeSlot = await createTimeSlot({ date, startTime, endTime });
     res.status(201).json(timeSlot);
-  } catch (error: any) {
-    const message = error.message || 'Failed to create time slot';
-    const status = message.includes('already exists') ? 409 : 400;
-    res.status(status).json({ error: message });
+  } catch (error) {
+    next(error);
   }
 });
 
 // GET /timeslots — get all time slots
-router.get('/', async (_req: Request, res: Response) => {
+router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const timeSlots = await getAllTimeSlots();
     res.json(timeSlots);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message || 'Failed to fetch time slots' });
+  } catch (error) {
+    next(error);
   }
 });
 
 // GET /timeslots/available — get only available time slots
-router.get('/available', async (_req: Request, res: Response) => {
+router.get('/available', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const timeSlots = await getAvailableTimeSlots();
     res.json(timeSlots);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message || 'Failed to fetch available time slots' });
+  } catch (error) {
+    next(error);
   }
 });
 
