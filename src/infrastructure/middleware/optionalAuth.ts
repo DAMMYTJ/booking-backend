@@ -14,7 +14,8 @@ const optionalAuth = (req: AuthRequest, _res: Response, next: NextFunction): voi
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return next(); // guest — no token
+    return next(); // g
+    // uest — no token
   }
 
   const token = authHeader.split(' ')[1] as string;
