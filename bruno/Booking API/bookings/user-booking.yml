@@ -1,16 +1,17 @@
 info:
-  name: create-booking
+  name: user-booking
   type: http
-  seq: 1
+  seq: 5
 http:
   method: POST
   url: "{{baseUrl}}/bookings"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
   body:
     type: json
     data: |-
       {
-        "guestName": "John Doe",
-        "guestEmail": "john@test.com",
         "timeSlotId": "PASTE_SLOT_ID_HERE"
       }
   auth: inherit

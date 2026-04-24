@@ -2,10 +2,9 @@ info:
   name: update-booking-status
   type: http
   seq: 3
-
 http:
   method: PATCH
-  url: "{{baseUrl}}/bookings/PUT_BOOKING_ID_HERE/status"
+  url: "{{baseUrl}}/bookings/PASTE_BOOKING_ID_HERE/status"
   headers:
     - name: Authorization
       value: Bearer {{adminToken}}
@@ -13,10 +12,9 @@ http:
     type: json
     data: |-
       {
-        "status": "approved"
+        "status": "accepted"
       }
   auth: inherit
-
 settings:
   encodeUrl: true
   timeout: 0

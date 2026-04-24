@@ -1,17 +1,17 @@
 info:
-  name: create-booking
+  name: register-admin
   type: http
-  seq: 1
+  seq: 3
 http:
   method: POST
-  url: "{{baseUrl}}/bookings"
+  url: "{{baseUrl}}/auth/register"
   body:
     type: json
     data: |-
       {
-        "guestName": "John Doe",
-        "guestEmail": "john@test.com",
-        "timeSlotId": "PASTE_SLOT_ID_HERE"
+        "name": "Admin User",
+        "email": "admin@test.com",
+        "password": "123456"
       }
   auth: inherit
 settings:

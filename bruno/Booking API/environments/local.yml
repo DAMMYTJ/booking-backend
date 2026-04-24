@@ -3,6 +3,6 @@ variables:
   - name: baseUrl
     value: http://localhost:3000
   - name: token
-    value: ""
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZWFjNDk4YzE3OTgzOTZlMTg0YWJkZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3Njk5NDgxNiwiZXhwIjoxNzc3NTk5NjE2fQ.9rdi5iOkFuVJGXGRGT1ufLXORdbAPj2eWsSczWnfjvo
   - name: adminToken
-    value: ""
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZWFjNDk4YzE3OTgzOTZlMTg0YWJkZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3Njk5NDgxNiwiZXhwIjoxNzc3NTk5NjE2fQ.9rdi5iOkFuVJGXGRGT1ufLXORdbAPj2eWsSczWnfjvo

@@ -1,13 +1,19 @@
 info:
-  name: get-admin-bookings
+  name: decline-booking
   type: http
-  seq: 1
+  seq: 4
 http:
-  method: GET
-  url: "{{baseUrl}}/bookings"
+  method: PATCH
+  url: "{{baseUrl}}/bookings/PASTE_BOOKING_ID_HERE/status"
   headers:
     - name: Authorization
       value: Bearer {{adminToken}}
+  body:
+    type: json
+    data: |-
+      {
+        "status": "declined"
+      }
   auth: inherit
 settings:
   encodeUrl: true
